@@ -12,12 +12,20 @@ import java.util.List;
  * @author Kohsuke Kawaguchi
  */
 public class Dictionary {
-    private List<String> nouns = new ArrayList<String>();
-    private List<String> adjectives = new ArrayList<String>();
+    public static final char DEFAULT_SEPARATOR = '_';
+    private final char separatorChar;
+
+    private final List<String> nouns = new ArrayList<String>();
+    private final List<String> adjectives = new ArrayList<String>();
 
     private final int prime;
 
     public Dictionary() {
+        this(DEFAULT_SEPARATOR);
+    }
+
+    public Dictionary(char separatorChar) {
+        this.separatorChar = separatorChar;
         try {
             load("a.txt", adjectives);
             load("n.txt", nouns);
@@ -53,7 +61,7 @@ public class Dictionary {
         int a = i%adjectives.size();
         int n = i/adjectives.size();
 
-        return adjectives.get(a)+"_"+nouns.get(n);
+        return adjectives.get(a)+ separatorChar +nouns.get(n);
     }
 
     private void load(String name, List<String> col) throws IOException {
